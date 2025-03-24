@@ -1,0 +1,6 @@
+Run one instance of The Server
+args = [] or [portNumber]
+
+and two instances of the Client (or Client + Client2)
+args = [] or [hostName, portNumber]
+-> Follow instructions printed on Client console

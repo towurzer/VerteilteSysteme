@@ -1,0 +1,6 @@
+Run one instance of The Server
+args = [] or [portNumber]
+
+and m instances of the Client
+args = [] or [hostName, portNumber]
+-> Follow instructions printed on Client console to chat :)
