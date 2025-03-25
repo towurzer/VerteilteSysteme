@@ -13,7 +13,7 @@ public class Client {
         try{
             // Getting the registry
             //Registry registry = LocateRegistry.getRegistry(PORT);
-            Registry registry= LocateRegistry.getRegistry("192.168.236.23", PORT);
+            Registry registry = LocateRegistry.getRegistry("192.168.236.23", PORT);
 
             // looking up the registry for the remote object
             Hello stub = (Hello) registry.lookup("Hello");
