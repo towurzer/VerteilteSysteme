@@ -1,12 +1,14 @@
 package homework.assignment_03.ex1;
 
+import homework.assignment_03.ex1.dto.File;
+
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class FileService {
+public class FileServer {
 
     private static final int PORT = 8080;
     private static final Registry registry;
@@ -17,8 +19,8 @@ public class FileService {
         // Binding the remote object (stub) in the registry
         try {
             System.out.println("Adding files....");
-            for(int i = 0; i < 10; i++){
-                var file = new FileDTO();
+            for (int i = 0; i < 10; i++) {
+                var file = new File();
                 file.setFilename("File_" + i);
                 file.setContent("This is file number " + i);
                 fileSystem.addFile(file);

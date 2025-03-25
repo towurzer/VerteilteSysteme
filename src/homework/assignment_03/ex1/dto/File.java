@@ -1,6 +1,6 @@
-package homework.assignment_03.ex1;
+package homework.assignment_03.ex1.dto;
 
-public class FileDTO {
+public class File {
     private String filename;
     private String content;
 
