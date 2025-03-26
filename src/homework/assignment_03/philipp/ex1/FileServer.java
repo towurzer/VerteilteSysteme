@@ -1,4 +1,4 @@
-package homework.assignment_03.ex1;
+package homework.assignment_03.philipp.ex1;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
