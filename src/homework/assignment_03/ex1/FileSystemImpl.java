@@ -1,21 +1,17 @@
 package homework.assignment_03.ex1;
 
-import homework.assignment_03.ex1.dto.File;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 public class FileSystemImpl implements FileSystem {
 
-    private final List<File> files = new ArrayList<>();
     private final Path ROOT_PATH;
 
     public FileSystemImpl(String path) {
@@ -64,9 +60,6 @@ public class FileSystemImpl implements FileSystem {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void addFile(File file) {
     }
 
     public void removeFolder() throws IOException {
