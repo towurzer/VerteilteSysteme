@@ -1,7 +1,5 @@
 package homework.assignment_03.ex1;
 
-import homework.assignment_03.ex1.dto.File;
-
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -13,20 +11,11 @@ public class FileServer {
     private static final int PORT = 8080;
     private static final Registry registry;
 
-    private static final FileSystemImpl fileSystem = new FileSystemImpl();
+    private static final FileSystemImpl fileSystem = new FileSystemImpl("out/directory");
 
     static {
         // Binding the remote object (stub) in the registry
         try {
-            System.out.println("Adding files....");
-            for (int i = 0; i < 10; i++) {
-                var file = new File();
-                file.setFilename("File_" + i);
-                file.setContent("This is file number " + i);
-                fileSystem.addFile(file);
-                System.out.println("Added file " + file.getFilename());
-            }
-
             registry = LocateRegistry.createRegistry(PORT);
         } catch (RemoteException e) {
             throw new RuntimeException(e);

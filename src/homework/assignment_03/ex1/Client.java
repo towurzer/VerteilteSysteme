@@ -10,7 +10,7 @@ public class Client {
     private static final int PORT = 8080;
 
     private static final Registry registry;
-    private static FileSystem fileSystem;
+    private static final FileSystem fileSystem;
 
     static {
         try {
@@ -26,7 +26,7 @@ public class Client {
 
             Scanner scanner = new Scanner(System.in);
             while (true) {
-                System.out.print("Enter command: ");
+                System.out.println("Enter command: ");
                 String command = scanner.nextLine();
                 if (command.equals("exit")) {
                     break;
