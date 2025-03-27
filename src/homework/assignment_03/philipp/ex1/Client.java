@@ -12,22 +12,28 @@ import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 public class Client {
-    private static final int PORT = 8080;
 
-    private static final Registry registry;
-    private static final FileSystem fileSystem;
+    private static FileSystem fileSystem;
 
-    static {
-        try {
-            registry = LocateRegistry.getRegistry(PORT);
-            fileSystem = (FileSystem) registry.lookup("fileSystem");
-        } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
+
+            System.out.println("Please enter host ip address: ");
+            final String hostAddress = scanner.nextLine();
+
+            System.out.println("Please enter port number: ");
+            final int portNumber = Integer.parseInt(scanner.nextLine());
+
+
+            try {
+                Registry registry = LocateRegistry.getRegistry(hostAddress, portNumber);
+                fileSystem = (FileSystem) registry.lookup("fileSystem");
+            } catch (RemoteException | NotBoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            System.out.println("\u001B[32mConnection successful!\u001B[0m");
             System.out.println(
                     """
 
@@ -35,12 +41,11 @@ public class Client {
 
                             Following commands are available:
                             1) "list" -> Displays all files in the server directory
-                            2) "get <filename>" -> Fetches the fle from the server and saves it in the current working directory
+                            2) "get <filename>" -> Fetches the file from the server and saves it in the current working directory. BEWARE: Full filename required!
                             3) "exit" -> Closes the application
                             Please enter desired action:""");
             while (true) {
                 String command = scanner.nextLine();
-
                 System.out.print("\n");
                 if (command.equals("exit")) {
                     System.out.println("Shutdown application, goodbye!");
