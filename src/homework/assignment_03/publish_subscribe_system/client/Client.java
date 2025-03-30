@@ -1,7 +1,7 @@
 package homework.assignment_03.publish_subscribe_system.client;
 
 import homework.assignment_03.publish_subscribe_system.server.NewsArticle;
-import homework.assignment_03.publish_subscribe_system.server.NewsPlattform;
+import homework.assignment_03.publish_subscribe_system.server.NewsPlatform;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class Client {
     private static final String DEFAULTIP = "127.0.0.1";
@@ -29,13 +28,13 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry(hostIp, port);
 
             // looking up the registry for the remote object
-            NewsPlattform newsPlattform = (NewsPlattform) registry.lookup("newsPlattform");
+            NewsPlatform newsPlatform = (NewsPlatform) registry.lookup("newsPlatform");
 
             System.out.println("Connection successful");
 
             // ----------- actions ------------
             System.out.println("New user detected, subscribing to everything!");
-            subscribe(newsPlattform, "everything");
+            subscribe(newsPlatform, "everything");
             help();
 
             while (true) {
@@ -46,19 +45,21 @@ public class Client {
                     break;
                 } else if (command.startsWith("subscribe")) {
                     String topic = command.substring("subscribe".length()).trim();
-                    subscribe(newsPlattform, topic);
+                    subscribe(newsPlatform, topic);
                 } else if (command.startsWith("unsubscribe")) {
                     String topic = command.substring("unsubscribe".length()).trim();
-                    unsubscribe(newsPlattform, topic);
+                    unsubscribe(newsPlatform, topic);
                 } else if (command.equals("info")) {
-                    getInfo(newsPlattform);
+                    getInfo(newsPlatform);
+                } else if (command.equals("topics")) {
+                    listTopics(newsPlatform);
                 } else if (command.equals("publish")) {
-                    publishNewsArticle(newsPlattform, scanner);
-                } else if (command.equals("display")||command.equals("fetch")) {
-                   displayNews(newsPlattform);
+                    publishNewsArticle(newsPlatform, scanner);
+                } else if (command.equals("display") || command.equals("fetch")) {
+                    displayNews(newsPlatform);
                 } else if (command.startsWith("display")) {
                     String topic = command.substring("display".length()).trim();
-                    displayNews(newsPlattform, topic);
+                    displayNews(newsPlatform, topic);
                 } else if (command.equals("help")) {
                     help();
                 } else {
@@ -77,57 +78,58 @@ public class Client {
         System.out.println(
                 """
 
-                        ----- News Sharing Plattform ----
+                        ----- News Sharing Platform ----
 
                         Following commands are available:
                         1) "subscribe <topic>" -> Subscribes you to the specified topic
                         2) "unsubscribe <topic>" -> Unsubscribes you from the specified topic
                         3) "info" -> tells you which topics you are subscribed to
-                        4) "publish" -> lets you publish an article
-                        5) "display" -> displays all the articles you are subscribed to
-                        6) "display <topic>" -> displays all the articles published to this topic
-                        7) "help" -> Print this message
-                        8) "exit" -> Closes the application
+                        4) "topics" -> lists all available topics
+                        5) "publish" -> lets you publish an article
+                        6) "display" -> displays all the articles you are subscribed to
+                        7) "display <topic>" -> displays all the articles published to this topic
+                        8) "help" -> Print this message
+                        9) "exit" -> Closes the application
                         Please enter desired action:"""
         );
     }
 
-    private static void subscribe(NewsPlattform newsPlattform, String topic) throws RemoteException {
+    private static void subscribe(NewsPlatform newsPlatform, String topic) throws RemoteException {
         System.out.printf("Subscribing to topic %s....\n", topic);
-        //System.out.println(newsPlattform.subscribe(CLIENT_ID, topic) ? "Successfully subscribed to %s".formatted(topic) : "Failed subscription, you are already subscribed to %s".formatted(topic));
-        if (newsPlattform.subscribe(CLIENT_ID, topic)){
+        //System.out.println(newsPlatform.subscribe(CLIENT_ID, topic) ? "Successfully subscribed to %s".formatted(topic) : "Failed subscription, you are already subscribed to %s".formatted(topic));
+        if (newsPlatform.subscribe(CLIENT_ID, topic)) {
             System.out.printf("Successfully subscribed to %s\n", topic);
             return;
         }
         System.out.printf("Failed subscription, you are already subscribed to %s\n", topic);
     }
 
-    private static void unsubscribe(NewsPlattform newsPlattform, String topic) throws RemoteException {
+    private static void unsubscribe(NewsPlatform newsPlatform, String topic) throws RemoteException {
         System.out.printf("Unsubscribing from %s....\n", topic);
-        if (newsPlattform.unsubscribe(CLIENT_ID, topic)){
+        if (newsPlatform.unsubscribe(CLIENT_ID, topic)) {
             System.out.printf("Successfully unsubscribed from %s\n", topic);
             return;
         }
         System.out.printf("Failed unsubscription, you are not subscribed to %s\n", topic);
     }
 
-    private static void displayNews(NewsPlattform newsPlattform, String topic) throws RemoteException {
+    private static void displayNews(NewsPlatform newsPlatform, String topic) throws RemoteException {
         System.out.printf("Fetching news with keyword %s...\n", topic);
-        List<NewsArticle> newsArticleList =  newsPlattform.getNews(topic);
+        List<NewsArticle> newsArticleList = newsPlatform.getNews(topic);
 
         System.out.println("News Articles: ");
         newsArticleList.forEach(System.out::println);
     }
 
-    private static void displayNews(NewsPlattform newsPlattform) throws RemoteException {
+    private static void displayNews(NewsPlatform newsPlatform) throws RemoteException {
         System.out.println("Fetching news you are subscribed to...");
-        List<NewsArticle> newsArticleList =  newsPlattform.getNews(CLIENT_ID);
+        List<NewsArticle> newsArticleList = newsPlatform.getNews(CLIENT_ID);
 
         System.out.println("News Articles: ");
         newsArticleList.forEach(System.out::println);
     }
 
-    private static void publishNewsArticle(NewsPlattform newsPlattform, Scanner scanner) throws RemoteException{
+    private static void publishNewsArticle(NewsPlatform newsPlatform, Scanner scanner) throws RemoteException {
         System.out.println("\n\n");
         System.out.println("Welcome to the Article Editor:\n-------------------------");
         System.out.println("Please enter the name the article should be published under:");
@@ -141,19 +143,19 @@ public class Client {
         String[] keywords = scanner.nextLine().split(", *");
 
         System.out.println("\n And that's it. Publishing your article now...");
-        newsPlattform.publish(keywords, CLIENT_ID, name, text);
+        newsPlatform.publish(keywords, CLIENT_ID, name, text);
         System.out.println("Article published successfully");
 
     }
 
-    private static void getInfo(NewsPlattform newsPlattform) throws RemoteException {
+    private static void getInfo(NewsPlatform newsPlatform) throws RemoteException {
         System.out.println("Fetching info about you...");
 
-        Set<String> subscriptionset = newsPlattform.getSubscriptions(CLIENT_ID);
-        System.out.printf("You are subscribed to: %s\n",String.join(", ", subscriptionset));
+        Set<String> subscriptionset = newsPlatform.getSubscriptions(CLIENT_ID);
+        System.out.printf("You are subscribed to: %s\n", String.join(", ", subscriptionset));
     }
 
-    private static String getText(Scanner scanner){
+    private static String getText(Scanner scanner) {
         StringBuilder article = new StringBuilder();
         String line;
 
@@ -165,6 +167,12 @@ public class Client {
             article.append(line).append("\n"); // build article
         }
         return article.toString().trim(); // Remove trailing newline and return
+    }
+
+    private static void listTopics(NewsPlatform newsPlatform) throws RemoteException {
+        System.out.println("Fetching all available topics...");
+        System.out.println("----- Available Topics -------");
+        newsPlatform.getTopics().forEach(System.out::println);
     }
 
 }

@@ -1,11 +1,19 @@
 package homework.assignment_03.publish_subscribe_system.server;
 
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
-public class NewsPlattformImpl implements NewsPlattform {
+public class NewsPlatformImpl implements NewsPlatform {
     protected HashMap<UUID, Set<String>> userSubscriptions = new HashMap<>();
     protected HashMap<String, List<NewsArticle>> articlesPerTopics = new HashMap<>();
+
     @Override
     public boolean subscribe(UUID userID, String topic) throws RemoteException {
         return userSubscriptions.computeIfAbsent(userID, k -> new HashSet<>()).add(topic);
@@ -20,7 +28,7 @@ public class NewsPlattformImpl implements NewsPlattform {
     public void publish(String[] topics, UUID authorID, String author, String text) throws RemoteException {
         NewsArticle newNewsArticle = new NewsArticle(author, authorID, topics, text);
 
-        for(String topic: topics){
+        for (String topic : topics) {
             articlesPerTopics.computeIfAbsent(topic, k -> new ArrayList<>()).add(newNewsArticle);
         }
 
@@ -30,7 +38,7 @@ public class NewsPlattformImpl implements NewsPlattform {
     @Override
     public List<NewsArticle> getNews(UUID userID) throws RemoteException {
         List<NewsArticle> articleList = new ArrayList<>();
-        for (String topic : userSubscriptions.getOrDefault(userID, Collections.emptySet())){
+        for (String topic : userSubscriptions.getOrDefault(userID, Collections.emptySet())) {
             articleList.addAll(getNews(topic));
         }
         return articleList;
@@ -44,5 +52,10 @@ public class NewsPlattformImpl implements NewsPlattform {
     @Override
     public Set<String> getSubscriptions(UUID userID) throws RemoteException {
         return userSubscriptions.getOrDefault(userID, Collections.emptySet());
+    }
+
+    @Override
+    public List<String> getTopics() throws RemoteException {
+        return Optional.of(articlesPerTopics.keySet()).orElse(new HashSet<>()).stream().toList();
     }
 }
