@@ -1,7 +1,9 @@
-package homework.assignment_04.philipp.ex1;
+package homework.assignment_04.ex1.server;
 
-import homework.assignment_03.philipp.ex1.FileSystem;
-import homework.assignment_03.philipp.ex1.FileSystemImpl;
+import homework.assignment_04.ex1.server.api.ClientApiImpl;
+import homework.assignment_04.ex1.server.api.WorkerApiImpl;
+import homework.assignment_04.ex1.dto.WorkerApi;
+import homework.assignment_04.ex1.dto.ClientApi;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -14,8 +16,6 @@ public class Server {
     private static final int PORT = 8080;
     private static final Registry registry;
 
-    private static final FileSystemImpl fileSystem = new FileSystemImpl("out/directory");
-
     static {
         // Binding the remote object (stub) in the registry
         try {
@@ -27,9 +27,11 @@ public class Server {
 
     public static void main(String[] args) throws RemoteException {
         try {
-            FileSystem fs = (FileSystem) UnicastRemoteObject.exportObject(fileSystem, 0);
-            registry.bind("fileSystem", fs);
-            System.out.println("File Service started....");
+            ClientApi clientApi = (ClientApi) UnicastRemoteObject.exportObject(new ClientApiImpl(), 0);
+            WorkerApi workerApi = (WorkerApi) UnicastRemoteObject.exportObject(new WorkerApiImpl(), 0);
+            registry.bind(ClientApi.registeredName, clientApi);
+            registry.bind(WorkerApi.registeredName, workerApi);
+            System.out.println("Prime Searcher Model started....");
         } catch (AlreadyBoundException e) {
             throw new RuntimeException(e);
         }
