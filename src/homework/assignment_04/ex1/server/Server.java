@@ -1,9 +1,9 @@
 package homework.assignment_04.ex1.server;
 
-import homework.assignment_04.ex1.server.api.ClientApiImpl;
-import homework.assignment_04.ex1.server.api.WorkerApiImpl;
-import homework.assignment_04.ex1.dto.WorkerApi;
-import homework.assignment_04.ex1.dto.ClientApi;
+import homework.assignment_04.ex1.server.api.impl.ClientApiImpl;
+import homework.assignment_04.ex1.server.api.impl.WorkerApiImpl;
+import homework.assignment_04.ex1.api.WorkerApi;
+import homework.assignment_04.ex1.api.ClientApi;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -15,6 +15,8 @@ public class Server {
 
     private static final int PORT = 8080;
     private static final Registry registry;
+    private static final WorkerApi workerApiImpl = new WorkerApiImpl();
+    private static final ClientApi clientApiImpl = new ClientApiImpl();
 
     static {
         // Binding the remote object (stub) in the registry
@@ -27,8 +29,8 @@ public class Server {
 
     public static void main(String[] args) throws RemoteException {
         try {
-            ClientApi clientApi = (ClientApi) UnicastRemoteObject.exportObject(new ClientApiImpl(), 0);
-            WorkerApi workerApi = (WorkerApi) UnicastRemoteObject.exportObject(new WorkerApiImpl(), 0);
+            ClientApi clientApi = (ClientApi) UnicastRemoteObject.exportObject(clientApiImpl, 0);
+            WorkerApi workerApi = (WorkerApi) UnicastRemoteObject.exportObject(workerApiImpl, 0);
             registry.bind(ClientApi.registeredName, clientApi);
             registry.bind(WorkerApi.registeredName, workerApi);
             System.out.println("Prime Searcher Model started....");

@@ -1,4 +1,4 @@
-package homework.assignment_04.ex1.dto;
+package homework.assignment_04.ex1.api;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

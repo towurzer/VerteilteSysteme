@@ -1,7 +1,7 @@
 package homework.assignment_04.ex1.client;
 
-import homework.assignment_04.ex1.dto.PrimeSearcherTask;
-import homework.assignment_04.ex1.dto.WorkerApi;
+import homework.assignment_04.ex1.api.PrimeSearcherTask;
+import homework.assignment_04.ex1.api.WorkerApi;
 
 import java.math.BigInteger;
 import java.rmi.NotBoundException;
@@ -33,12 +33,13 @@ public class WorkerClient {
 
             PrimeSearcherTask task;
             while ((task = workerApi.getTask()) != null) {
-                System.out.printf("Received task: queueId=%s, num=%s", task.taskQueueId(), task.number());
+                System.out.printf("Received task: queueId=%s, num=%s\n", task.taskQueueId(), task.number());
                 if (isPrime(task.number())) {
-                    System.out.printf("\\u001B[32mReporting prime number: queueId=%s, num=%s\\u001B[0m",
+                    System.out.printf("\\u001B[32mReporting prime number: queueId=%s, num=%s\\u001B[0m \n",
                             task.taskQueueId(), task.number());
                     workerApi.reportPrime(task);
                 }
+                workerApi.reportTaskComplete(task);
             }
 
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package homework.assignment_04.ex1.dto;
+package homework.assignment_04.ex1.api;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -8,7 +8,8 @@ public interface WorkerApi extends Remote {
     String registeredName = "workerApi";
 
     UUID registerWorker() throws RemoteException;
-    PrimeSearcherTask getTask() throws RemoteException;
+    PrimeSearcherTask getTask() throws RemoteException, InterruptedException;
     void reportPrime(PrimeSearcherTask task) throws RemoteException;
+    void reportTaskComplete(PrimeSearcherTask task) throws RemoteException;
 
 }

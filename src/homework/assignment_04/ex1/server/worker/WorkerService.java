@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class WorkerPool {
+public class WorkerService {
 
     private final List<UUID> workers = new ArrayList<>();
+    private boolean terminated = false;
 
-    private static WorkerPool INSTANCE;
+    private static WorkerService INSTANCE;
 
-    private WorkerPool() {}
+    private WorkerService() {}
 
-    public static WorkerPool getInstance() {
+    public static WorkerService getInstance() {
         if(INSTANCE == null) {
             //Lazily initialize the WorkerPoolInstance
-            INSTANCE = new WorkerPool();
+            INSTANCE = new WorkerService();
         }
         return INSTANCE;
     }
@@ -28,5 +29,17 @@ public class WorkerPool {
 
     public List<UUID> getWorkers() {
         return workers;
+    }
+
+    public void terminateWorkers(){
+        terminated = true;
+    }
+
+    public boolean isTerminated() {
+        return terminated;
+    }
+
+    public void activateWorkers(){
+        terminated = false;
     }
 }
