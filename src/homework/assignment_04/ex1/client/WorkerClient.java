@@ -55,7 +55,7 @@ public class WorkerClient {
         var big = new BigInteger(String.valueOf(num));
         var sqrt = big.sqrt().longValue();
         for (long j = 2; j <= sqrt; j++) {
-            if (num % j == 0) {
+            if (num == 0 || num % j == 0) {
                 return false;
             }
         }

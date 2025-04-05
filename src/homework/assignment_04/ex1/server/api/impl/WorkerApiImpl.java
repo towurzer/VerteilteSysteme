@@ -2,6 +2,7 @@ package homework.assignment_04.ex1.server.api.impl;
 
 import homework.assignment_04.ex1.api.PrimeSearcherTask;
 import homework.assignment_04.ex1.api.WorkerApi;
+import homework.assignment_04.ex1.server.LockHolder;
 import homework.assignment_04.ex1.server.task.TaskQueueService;
 import homework.assignment_04.ex1.server.worker.WorkerService;
 
@@ -22,16 +23,17 @@ public class WorkerApiImpl implements WorkerApi {
 
     @Override
     public PrimeSearcherTask getTask() throws RemoteException {
-        while(!workerService.isTerminated()){
+        while (!workerService.isTerminated()) {
             PrimeSearcherTask task = taskQueueService.getNextTask();
-            if(task != null){
+            if (task != null) {
                 return task;
             }
 
-            synchronized (workerService) {
-                while(taskQueueService.getNextTask() == null){
+            synchronized (LockHolder.SHARED_LOCK) {
+                while (taskQueueService.getNextTask() == null) {
                     try {
-                        workerService.wait();
+                        System.out.println("Waiting for new task...");
+                        LockHolder.SHARED_LOCK.wait();
                     } catch (InterruptedException e) {
                         System.err.printf("Worker encountered error while waiting: %s\n", e.getMessage());
                         return null;
