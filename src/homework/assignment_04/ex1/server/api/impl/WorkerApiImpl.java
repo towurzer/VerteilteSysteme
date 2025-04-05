@@ -2,7 +2,7 @@ package homework.assignment_04.ex1.server.api.impl;
 
 import homework.assignment_04.ex1.api.PrimeSearcherTask;
 import homework.assignment_04.ex1.api.WorkerApi;
-import homework.assignment_04.ex1.server.LockHolder;
+import homework.assignment_04.ex1.server.task.TaskQueueLockManager;
 import homework.assignment_04.ex1.server.task.TaskQueueService;
 import homework.assignment_04.ex1.server.worker.WorkerService;
 
@@ -29,11 +29,11 @@ public class WorkerApiImpl implements WorkerApi {
                 return task;
             }
 
-            synchronized (LockHolder.SHARED_LOCK) {
+            synchronized (TaskQueueLockManager.WORKER_TASK_WAIT_LOCK) {
                 while (taskQueueService.getNextTask() == null) {
                     try {
-                        System.out.println("Waiting for new task...");
-                        LockHolder.SHARED_LOCK.wait();
+                        System.out.println("All tasks finished, waiting for new task...");
+                        TaskQueueLockManager.WORKER_TASK_WAIT_LOCK.wait();
                     } catch (InterruptedException e) {
                         System.err.printf("Worker encountered error while waiting: %s\n", e.getMessage());
                         return null;

@@ -10,7 +10,7 @@ import java.util.UUID;
 public class TaskQueue {
 
     private final UUID taskQueueId;
-    private Queue<PrimeSearcherTask> taskQueue;
+    private final Queue<PrimeSearcherTask> taskQueue;
     private boolean isActive;
     private final List<Long> primeNumbers = new ArrayList<>();
     private long taskCount;
@@ -38,7 +38,7 @@ public class TaskQueue {
         isActive = active;
     }
 
-    public synchronized void reportPrimeNumber(Long number){
+    public synchronized void reportPrimeNumber(Long number) {
         primeNumbers.add(number);
     }
 
@@ -46,7 +46,7 @@ public class TaskQueue {
         return primeNumbers;
     }
 
-    public synchronized PrimeSearcherTask getTask(){
+    public synchronized PrimeSearcherTask getTask() {
         return taskQueue.poll();
     }
 
@@ -55,6 +55,6 @@ public class TaskQueue {
     }
 
     public void reportTaskComplete() {
-        taskCount--;
+        --taskCount;
     }
 }

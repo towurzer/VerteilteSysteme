@@ -51,11 +51,13 @@ public class WorkerClient {
      * Checks if a given number is prime
      */
     private static boolean isPrime(long num) {
+        if (num < 2) return false;
+
         // Convert long to BigInteger and get the sqrt of the value
         var big = new BigInteger(String.valueOf(num));
         var sqrt = big.sqrt().longValue();
         for (long j = 2; j <= sqrt; j++) {
-            if (num == 0 || num % j == 0) {
+            if (num % j == 0) {
                 return false;
             }
         }

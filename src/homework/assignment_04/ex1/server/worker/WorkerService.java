@@ -11,19 +11,21 @@ public class WorkerService {
 
     private static WorkerService INSTANCE;
 
-    private WorkerService() {}
+    private WorkerService() {
+    }
 
     public static WorkerService getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             //Lazily initialize the WorkerPoolInstance
             INSTANCE = new WorkerService();
         }
         return INSTANCE;
     }
 
-    public UUID addWorker(){
+    public UUID addWorker() {
         var workerId = UUID.randomUUID();
         workers.add(workerId);
+        System.out.printf("Registered worker: id=%s\n", workerId);
         return workerId;
     }
 
@@ -31,7 +33,7 @@ public class WorkerService {
         return workers;
     }
 
-    public void terminateWorkers(){
+    public void terminateWorkers() {
         terminated = true;
     }
 
@@ -39,7 +41,7 @@ public class WorkerService {
         return terminated;
     }
 
-    public void activateWorkers(){
+    public void activateWorkers() {
         terminated = false;
     }
 }

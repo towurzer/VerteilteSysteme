@@ -1,6 +1,7 @@
 package homework.assignment_04.ex1.server.task;
 
 import homework.assignment_04.ex1.api.PrimeSearcherTask;
+import homework.assignment_04.ex1.server.worker.WorkerService;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class TaskQueueService {
 
+    private final WorkerService workerService = WorkerService.getInstance();
+    private final TaskQueueLockManager lockManager = new TaskQueueLockManager();
     Map<UUID, TaskQueue> taskQueues = new ConcurrentHashMap<>();
 
     private static TaskQueueService INSTANCE;
@@ -40,29 +43,38 @@ public class TaskQueueService {
     public void processTaskQueue(UUID taskQueueId) throws InterruptedException {
         var taskQueue = taskQueues.get(taskQueueId);
         if (taskQueue != null) {
-            synchronized (taskQueue) {
-                taskQueue.setActive(true);
+            taskQueue.setActive(true);
+            synchronized (TaskQueueLockManager.WORKER_TASK_WAIT_LOCK) {
+                workerService.activateWorkers();
+                TaskQueueLockManager.WORKER_TASK_WAIT_LOCK.notifyAll();
+            }
 
+            var lock = lockManager.getLockForTaskQueue(taskQueueId);
+            synchronized (lock) {
                 while (taskQueue.getTaskCount() > 0) {
-                    taskQueue.wait();
+                    System.out.printf("Waiting for task queue to finish: id=%s\n", taskQueueId);
+                    lock.wait();
                 }
 
+                System.out.printf("Task queue finished: id=%s\n", taskQueueId);
                 taskQueue.setActive(false);
-                taskQueues.remove(taskQueueId);
+                lockManager.removeLock(taskQueueId);
             }
         }
     }
 
     public synchronized void reportTaskComplete(PrimeSearcherTask task) {
-        var taskQueue = taskQueues.get(task.taskQueueId());
-        if (taskQueue != null) {
-            synchronized (taskQueue) {
+        var lock = lockManager.getLockForTaskQueue(task.taskQueueId());
+        synchronized (lock) {
+            var taskQueue = taskQueues.get(task.taskQueueId());
+            if (taskQueue != null) {
                 taskQueue.reportTaskComplete();
+                System.out.printf("Task completed: id=%s, number=%s, nomOfTasks=%s\n", task.taskQueueId(), task.number(), taskQueue.getTaskCount());
                 if (taskQueue.getTaskCount() == 0) {
-                    taskQueue.notifyAll();
+                    System.out.printf("Task queue finished, notifying waiting threads: id=%s\n", task.taskQueueId());
+                    lock.notifyAll();
                 }
             }
-
         }
     }
 
@@ -88,14 +100,20 @@ public class TaskQueueService {
         return taskQueues.values().stream().filter(TaskQueue::isActive).toList();
     }
 
-    public synchronized List<Long> getPrimeNumbers(UUID taskQueueId) {
-        var taskQueue = getTaskQueue(taskQueueId);
-        if (taskQueue == null) {
-            return null;
+    public List<Long> getPrimeNumbers(UUID taskQueueId) {
+        var lock = lockManager.getLockForTaskQueue(taskQueueId);
+        synchronized (lock) {
+            var taskQueue = getTaskQueue(taskQueueId);
+            if (taskQueue == null) {
+                System.err.printf("No task queue found for id: %s\n", taskQueueId);
+                return List.of();
+            }
+            var primes = taskQueue.getPrimeNumbers()
+                    .stream()
+                    .sorted(Long::compareTo)
+                    .toList();
+            System.out.printf("Prime numbers: %s\n", primes);
+            return primes;
         }
-        return taskQueue.getPrimeNumbers()
-                .stream()
-                .sorted(Long::compareTo)
-                .toList();
     }
 }
