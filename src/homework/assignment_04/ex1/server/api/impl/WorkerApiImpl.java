@@ -30,14 +30,12 @@ public class WorkerApiImpl implements WorkerApi {
             }
 
             synchronized (TaskQueueLockManager.WORKER_TASK_WAIT_LOCK) {
-                while (taskQueueService.getNextTask() == null) {
-                    try {
-                        System.out.println("All tasks finished, waiting for new task...");
-                        TaskQueueLockManager.WORKER_TASK_WAIT_LOCK.wait();
-                    } catch (InterruptedException e) {
-                        System.err.printf("Worker encountered error while waiting: %s\n", e.getMessage());
-                        return null;
-                    }
+                try {
+                    System.out.println("All tasks finished, waiting for new task...");
+                    TaskQueueLockManager.WORKER_TASK_WAIT_LOCK.wait();
+                } catch (InterruptedException e) {
+                    System.err.printf("Worker encountered error while waiting: %s\n", e.getMessage());
+                    return null;
                 }
             }
         }
