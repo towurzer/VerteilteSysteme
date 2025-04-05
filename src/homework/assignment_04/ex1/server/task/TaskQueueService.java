@@ -28,15 +28,18 @@ public class TaskQueueService {
         return INSTANCE;
     }
 
-    public synchronized UUID addTaskQueue(List<Long> numbers) {
+    public UUID addTaskQueue(List<Long> numbers) {
         UUID taskQueueId = UUID.randomUUID();
-        Queue<PrimeSearcherTask> queue = new ConcurrentLinkedQueue<>(numbers.stream().map(n -> new PrimeSearcherTask(taskQueueId, n)).toList());
-        var taskQueue = new TaskQueue(taskQueueId, queue, false);
-        taskQueues.put(taskQueueId, taskQueue);
-        return taskQueueId;
+        var lock = lockManager.getLockForTaskQueue(taskQueueId);
+        synchronized (lock) {
+            Queue<PrimeSearcherTask> queue = new ConcurrentLinkedQueue<>(numbers.stream().map(n -> new PrimeSearcherTask(taskQueueId, n)).toList());
+            var taskQueue = new TaskQueue(taskQueueId, queue, false);
+            taskQueues.put(taskQueueId, taskQueue);
+            return taskQueueId;
+        }
     }
 
-    public synchronized TaskQueue getTaskQueue(UUID taskQueueId) {
+    public TaskQueue getTaskQueue(UUID taskQueueId) {
         return taskQueues.get(taskQueueId);
     }
 
@@ -46,6 +49,7 @@ public class TaskQueueService {
             taskQueue.setActive(true);
             synchronized (TaskQueueLockManager.WORKER_TASK_WAIT_LOCK) {
                 workerService.activateWorkers();
+                System.out.printf("Started to process task queue, notifying workers: id=%s\n",taskQueueId);
                 TaskQueueLockManager.WORKER_TASK_WAIT_LOCK.notifyAll();
             }
 
@@ -63,7 +67,7 @@ public class TaskQueueService {
         }
     }
 
-    public synchronized void reportTaskComplete(PrimeSearcherTask task) {
+    public void reportTaskComplete(PrimeSearcherTask task) {
         var lock = lockManager.getLockForTaskQueue(task.taskQueueId());
         synchronized (lock) {
             var taskQueue = taskQueues.get(task.taskQueueId());
@@ -78,7 +82,7 @@ public class TaskQueueService {
         }
     }
 
-    public synchronized void reportPrimeNumber(PrimeSearcherTask task) {
+    public void reportPrimeNumber(PrimeSearcherTask task) {
         var taskQueue = taskQueues.get(task.taskQueueId());
         if (taskQueue != null) {
             taskQueue.reportPrimeNumber(task.number());

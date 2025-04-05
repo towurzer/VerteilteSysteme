@@ -35,7 +35,7 @@ public class WorkerClient {
             while ((task = workerApi.getTask()) != null) {
                 System.out.printf("Received task: queueId=%s, num=%s\n", task.taskQueueId(), task.number());
                 if (isPrime(task.number())) {
-                    System.out.printf("\\u001B[32mReporting prime number: queueId=%s, num=%s\\u001B[0m \n",
+                    System.out.printf("\u001B[32mReporting prime number: queueId=%s, num=%s\u001B[0m \n",
                             task.taskQueueId(), task.number());
                     workerApi.reportPrime(task);
                 }
