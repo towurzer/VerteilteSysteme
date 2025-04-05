@@ -39,13 +39,8 @@ public class Client {
 
             clientApi.getPrimes(taskQueueId).forEach(System.out::println);
 
-            while (true) {
-                Thread.sleep(5000);
-                System.out.println("Still here");
-            }
-
         } catch (Exception e) {
-            printError("Client error: " + e.getMessage());
+            printError("Client error: " + e);
         }
     }
 
