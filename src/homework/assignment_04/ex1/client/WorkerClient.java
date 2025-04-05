@@ -43,7 +43,7 @@ public class WorkerClient {
             }
 
         } catch (Exception e) {
-            printError("Client error: " + e.getMessage());
+            printError("Client error: " + e);
         }
     }
 

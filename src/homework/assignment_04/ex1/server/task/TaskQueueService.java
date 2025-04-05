@@ -68,8 +68,8 @@ public class TaskQueueService {
         synchronized (lock) {
             var taskQueue = taskQueues.get(task.taskQueueId());
             if (taskQueue != null) {
-                taskQueue.reportTaskComplete();
-                System.out.printf("Task completed: id=%s, number=%s, nomOfTasks=%s\n", task.taskQueueId(), task.number(), taskQueue.getTaskCount());
+                taskQueue.reportTaskComplete(task);
+                System.out.printf("Task completed: id=%s, number=%s, remainingTasks=%s\n", task.taskQueueId(), task.number(), taskQueue.getTaskCount());
                 if (taskQueue.getTaskCount() == 0) {
                     System.out.printf("Task queue finished, notifying waiting threads: id=%s\n", task.taskQueueId());
                     lock.notifyAll();
@@ -88,16 +88,18 @@ public class TaskQueueService {
     /**
      * Returns a task from any open task queue
      */
-    public synchronized PrimeSearcherTask getNextTask() {
-        var activeQueues = getActiveTaskQueues();
+    public PrimeSearcherTask getNextTask() {
+        var activeQueues = taskQueues.values().stream().filter(TaskQueue::isActive).toList();
+        ;
         if (activeQueues.isEmpty()) {
             return null;
         }
-        return activeQueues.getFirst().getTask();
-    }
 
-    public List<TaskQueue> getActiveTaskQueues() {
-        return taskQueues.values().stream().filter(TaskQueue::isActive).toList();
+        var taskQueue = activeQueues.getFirst();
+        var lock = lockManager.getLockForTaskQueue(taskQueue.getTaskQueueId());
+        synchronized (lock) {
+            return taskQueue.getTask();
+        }
     }
 
     public List<Long> getPrimeNumbers(UUID taskQueueId) {
