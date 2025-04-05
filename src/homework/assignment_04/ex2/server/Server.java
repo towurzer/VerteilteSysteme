@@ -1,7 +1,5 @@
 package homework.assignment_04.ex2.server;
 
-import homework.assignment_04.ex1.api.WorkerApi;
-import homework.assignment_04.ex1.api.ClientApi;
 import homework.assignment_04.ex2.api.DocumentStoreApi;
 import homework.assignment_04.ex2.server.api.impl.DocumentStoreApiImpl;
 

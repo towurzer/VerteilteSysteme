@@ -61,10 +61,10 @@ public class Client {
                     String titlePattern = command.substring("find".length()).trim();
                     findDocuments(titlePattern);
                 } else if (command.startsWith("get")) {
-                    try{
+                    try {
                         UUID id = UUID.fromString(command.substring("get".length()).trim());
                         getDocument(id);
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         printError("Invalid document id, please try again!");
                     }
                 } else if (command.equals("help")) {
@@ -97,7 +97,7 @@ public class Client {
     private static void listDocuments() throws RemoteException {
         System.out.println("---- All available documents ----");
         var documentsList = documentStoreApi.listDocuments();
-        if(documentsList.isEmpty()) {
+        if (documentsList.isEmpty()) {
             System.out.println("<No documents found>");
             return;
         }
@@ -107,7 +107,7 @@ public class Client {
     private static void findDocuments(String titlePattern) throws RemoteException {
         System.out.printf("Trying to find documents matching the given title: %s... \n", titlePattern);
         var documentsList = documentStoreApi.findDocumentByTitle(titlePattern);
-        if(documentsList.isEmpty()) {
+        if (documentsList.isEmpty()) {
             System.out.println("<No documents found>");
             return;
         }
