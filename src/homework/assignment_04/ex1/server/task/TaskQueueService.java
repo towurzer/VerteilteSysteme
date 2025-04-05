@@ -89,12 +89,16 @@ public class TaskQueueService {
         }
     }
 
+    public synchronized List<TaskQueue> getActiveQueues() {
+        return taskQueues.values().stream().filter(TaskQueue::isActive).toList();
+    }
+
     /**
      * Returns a task from any open task queue
      */
     public PrimeSearcherTask getNextTask() {
-        var activeQueues = taskQueues.values().stream().filter(TaskQueue::isActive).toList();
-        ;
+        var activeQueues = getActiveQueues();
+        System.out.println("Active queues: " + activeQueues.stream().map(TaskQueue::getTaskQueueId).toList());
         if (activeQueues.isEmpty()) {
             return null;
         }
