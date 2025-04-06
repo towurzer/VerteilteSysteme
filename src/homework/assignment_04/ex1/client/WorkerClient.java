@@ -31,6 +31,8 @@ public class WorkerClient {
 
             System.out.println("\u001B[32mConnection successful!\u001B[0m");
 
+            workerApi.registerWorker();
+
             PrimeSearcherTask task;
             while ((task = workerApi.getTask()) != null) {
                 System.out.printf("Received task: queueId=%s, num=%s\n", task.taskQueueId(), task.number());
