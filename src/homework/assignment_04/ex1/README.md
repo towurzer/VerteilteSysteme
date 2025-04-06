@@ -206,6 +206,7 @@ Please enter port number:
 991
 997  
 Elapsed time: 0.476833709 seconds
+Number of workers used: 1
 
 ## Output Client 2
 
@@ -387,10 +388,12 @@ Please enter port number:
 991
 997  
 Elapsed time: 0.321403000 seconds
+Number of workers used: 1
 
 ## Server Output
 
 Prime Searcher Model started…<br>
+Registered worker: id=5712b1a2-72c6-4902-a4fb-65e47ec2cffb<br>
 Active queues: []<br>
 All tasks finished, waiting for new task…<br>
 Created task queue ad9954cd-5105-4d2e-8027-fe6bf1f42530 for a list of 1000 numbers<br>

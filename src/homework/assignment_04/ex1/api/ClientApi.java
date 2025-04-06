@@ -11,4 +11,5 @@ public interface ClientApi extends Remote {
     UUID createTaskQueue(List<Long> numbers) throws RemoteException;
     void processTaskQueue(UUID taskQueueId) throws RemoteException;
     List<Long> getPrimes(UUID taskQueueId) throws RemoteException;
+    int getNumberOfWorkers() throws RemoteException;
 }

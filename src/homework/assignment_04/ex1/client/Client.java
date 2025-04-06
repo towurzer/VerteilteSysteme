@@ -52,6 +52,10 @@ public class Client {
             clientApi.getPrimes(taskQueueId).forEach(System.out::println);
 
             printElapsedTime(startTime, System.nanoTime());
+
+            int numOfWorkers = clientApi.getNumberOfWorkers();
+            System.out.printf("Number of workers used: %s\n", numOfWorkers);
+
         } catch (Exception e) {
             printError("Client error: " + e);
         }
