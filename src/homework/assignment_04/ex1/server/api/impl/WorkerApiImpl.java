@@ -16,9 +16,7 @@ public class WorkerApiImpl implements WorkerApi {
 
     @Override
     public UUID registerWorker() {
-        UUID workerId = workerService.addWorker();
-        System.out.printf("Registered worker %s\n", workerId);
-        return workerId;
+        return workerService.addWorker();
     }
 
     @Override
