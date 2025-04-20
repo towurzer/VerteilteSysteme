@@ -6,59 +6,58 @@ To start the client, just run the NewsServiceClient class
 
 Welcome to the News Service!  
 Please enter the desired topic:  
-usa  
+Austria  
+--- Found Articles containing topic 'Austria' ----- 
 
-Apr. 20, 2025 9:40:31 PM org.jboss.weld.bootstrap.WeldStartup <clinit>  
+Apr. 20, 2025 9:54:31 PM org.jboss.weld.bootstrap.WeldStartup <clinit>  
 INFO: WELD-000900: 5.1.2 (Final)  
-Apr. 20, 2025 9:40:31 PM org.jboss.weld.environment.deployment.discovery.ReflectionDiscoveryStrategy processAnnotatedDiscovery  
+Apr. 20, 2025 9:54:31 PM org.jboss.weld.environment.deployment.discovery.ReflectionDiscoveryStrategy processAnnotatedDiscovery  
 INFO: WELD-ENV-000014: Falling back to Java Reflection for bean-discovery-mode="annotated" discovery. Add org.jboss:jandex to the classpath to speed-up startup.  
-Apr. 20, 2025 9:40:31 PM org.jboss.weld.bootstrap.WeldStartup startContainer  
+Apr. 20, 2025 9:54:31 PM org.jboss.weld.bootstrap.WeldStartup startContainer  
 INFO: WELD-000101: Transactional services not available. Injection of @Inject UserTransaction not available. Transactional observers will be invoked synchronously.  
-Apr. 20, 2025 9:40:31 PM org.jboss.weld.environment.se.WeldContainer fireContainerInitializedEvent  
-INFO: WELD-ENV-002003: Weld SE container 741ae23d-dedc-4c50-b59b-8f53aa267e8d initialized  
+Apr. 20, 2025 9:54:31 PM org.jboss.weld.environment.se.WeldContainer fireContainerInitializedEvent  
+INFO: WELD-ENV-002003: Weld SE container 28d102fd-43db-4324-b2b1-6c94504fbcb6 initialized  
+Apr. 20, 2025 9:54:32 PM org.jboss.weld.environment.se.WeldContainer shutdown  
+INFO: WELD-ENV-002001: Weld SE container 28d102fd-43db-4324-b2b1-6c94504fbcb6 shut down
 
---- Found Articles containing topic 'usa' -----  
-Title: I shed 12st on fat jabs & was left with loose skin the weight of a NEWBORN – but ‘Mounjaro sex’ blew my mind  
-Published at: 2025-04-20 07:39:08,  
-Link: https://www.thescottishsun.co.uk/fabulous/14667560/moujarno-amy-kane-side-effect/
+Title: PBBM should use military intel to counter kidnap gangs--Cong Pimentel  
+Published at: 2025-04-20 07:53:46,  
+Link: https://mb.com.ph/2025/4/20/pbbm-should-use-military-intel-to-counter-kidnap-gangs-cong-pimentel
 
-Title: I shed 12st on fat jabs & was left with loose skin the weight of a NEWBORN – but ‘Mounjaro sex’ blew my mind  
-Published at: 2025-04-20 07:39:08,  
-Link: https://www.thesun.co.uk/fabulous/34491164/moujarno-amy-kane-side-effect/
+Title: Un cocoș de munte, fotografiat în Parcul Național Piatra Craiului din Brașov: „Cocoșul înțeleg, dar râsul...”  
+Published at: 2025-04-20 07:52:04,  
+Link: https://www.libertatea.ro/stiri/un-cocos-de-munte-fotografiat-in-parcul-national-piatra-craiului-din-brasov-5277919
 
-Title: Forschungsteam zieht Studie über Evolution aus Angst vor Ausweisung zurück  
-Published at: 2025-04-20 07:38:19,  
-Link: https://www.giessener-allgemeine.de/panorama/forschungsteam-zieht-studie-ueber-evolution-aus-angst-vor-ausweisung-zurueck-zr-93691862.html
+Title: Mendietxe Museoa, único  
+Published at: 2025-04-20 07:38:18,  
+Link: https://www.deia.eus/bizkaia/2025/04/20/mendietxe-museoa-unico-9538590.html
 
-Title: Víkendář: Pro Američany je snazší obviňovat cizí země, než brát vážně své domácí problémy  
-Published at: 2025-04-20 07:38:00,  
-Link: http://www.patria.cz/zpravodajstvi/6368305/vikendar-pro-americany-je-snazsi-obvinovat-cizi-zeme-nez-brat-vazne-sve-domaci-problemy.html
+Title: Cerity Partners LLC Acquires 12,397 Shares of iShares Europe ETF (NYSEARCA:IEV)  
+Published at: 2025-04-20 07:35:00,  
+Link: https://www.defenseworld.net/2025/04/20/cerity-partners-llc-acquires-12397-shares-of-ishares-europe-etf-nysearcaiev.html
 
-Title: Unfall bei Bremgarten: Tesla landet bei Überholmanöver im Wald – Fahrer schwer verletzt  
-Published at: 2025-04-20 07:37:38,  
-Link: https://www.tagesanzeiger.ch/unfall-aargau-tesla-landet-im-wald-fahrer-schwer-verletzt-956270610799
+Title: Sturm-Coach fordert gegen Linz Tugenden ein  
+Published at: 2025-04-20 07:32:44,  
+Link: https://sport.orf.at/stories/3140372/
 
-Title: Nordcorea e l'export di armi Usa, le accuse Pyongyang a Trump  
-Published at: 2025-04-20 07:37:35,  
-Link: https://www.adnkronos.com/internazionale/esteri/nordcorea-e-lexport-di-armi-usa-le-accuse-pyongyang-a-trump_7ywBKGj7dodpaBkvervnlD
+Title: Time for our football to do the talking in Vienna  
+Published at: 2025-04-20 07:20:00,  
+Link: https://ca.sports.yahoo.com/news/time-football-talking-vienna-072000506.html
 
-Title: Berlingske tester ketchup: I det sekund den ramte tungen, var der ingen tvivl  
-Published at: 2025-04-20 07:36:58,  
-Link: https://www.berlingske.dk/gastronomi/berlingske-tester-ketchup-i-det-sekund-den-ramte-tungen-var-der-ingen
+Title: Less Soviet, More Inspiring: Kyrgyzstan Seeks New Anthem  
+Published at: 2025-04-20 07:11:23,  
+Link: https://menafn.com/1109450119/Less-Soviet-More-Inspiring-Kyrgyzstan-Seeks-New-Anthem
 
-Title: Höjda priser och containerkaos – så påverkas sjöfrakten av tullkrisen  
-Published at: 2025-04-20 07:36:49,  
-Link: https://www.dn.se/ekonomi/hojda-priser-och-containerkaos-sa-paverkas-sjofrakten-av-tullkrisen/
+Title: Iga Swiatek, dialog nemaiauzit la conferința de presă: „Ești o mare jucătoare, de ce nu o poți bate și pe Ostapenko?”  
+Published at: 2025-04-20 07:03:08,  
+Link: https://www.gsp.ro/sporturi/tenis/iga-swiatek-dialog-nemaiauzit-la-conferinta-de-presa-esti-o-mare-jucatoare-de-ce-nu-o-poti-bate-si-pe-ostapenko-796402.html
 
-Title: Progreso lanza campaña para la protección de tortugas  
-Published at: 2025-04-20 07:36:35,  
-Link: https://www.yucatan.com.mx/yucatan/2025/04/20/progreso-lanza-campana-para-la-proteccion-de-tortugas.html
+Title: Police hunt financier of ‘blood‐for‐hire’ network in Que case  
+Published at: 2025-04-20 07:01:12,  
+Link: https://tribune.net.ph/2025/04/20/police-hunt-financier-of-bloodforhire-network-in-que-case
 
-Title: USA में ट्रम्प के खिलाफ फिर गुस्सा, सभी 50 राज्यों में प्रदर्शन, व्हाइट हाउस और टेस्ला शोरूमों का घेराव  
-Published at: 2025-04-20 07:35:19,  
-Link: https://palpalindia.com/2025/04/20/New-York-America-President-Donald-Trump-policies-anger-protests-in-all-50-states-siege-of-White-House-and-Tesla-showrooms.html
+Title: Readers sound off on Easter inspiration, composting and celebrity space flight  
+Published at: 2025-04-20 07:00:50,  
+Link: https://www.nydailynews.com/2025/04/20/readers-sound-off-on-easter-inspiration-composting-and-celebrity-space-flight/
 
-Apr. 20, 2025 9:40:32 PM org.jboss.weld.environment.se.WeldContainer shutdown  
-INFO: WELD-ENV-002001: Weld SE container 741ae23d-dedc-4c50-b59b-8f53aa267e8d shut down
-
-Process finished with exit code 0  
+Process finished with exit code 0   
