@@ -1,4 +1,4 @@
-package org.aau.homework.assignment_05;
+package org.aau.homework.assignment_05.ex2;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
