@@ -1,8 +1,8 @@
-package org.aau.homework.assignment_05.ex1;
+package org.aau.homework.assignment_05.philipp.ex1;
 
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
-import org.aau.homework.assignment_05.util.NewsClient;
+import org.aau.homework.assignment_05.philipp.util.NewsClient;
 
 import java.util.Scanner;
 

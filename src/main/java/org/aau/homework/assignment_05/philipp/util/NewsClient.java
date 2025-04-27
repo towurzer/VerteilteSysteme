@@ -1,4 +1,4 @@
-package org.aau.homework.assignment_05.util;
+package org.aau.homework.assignment_05.philipp.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

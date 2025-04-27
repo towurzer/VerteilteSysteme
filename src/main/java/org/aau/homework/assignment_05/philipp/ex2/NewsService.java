@@ -1,10 +1,10 @@
-package org.aau.homework.assignment_05.ex2;
+package org.aau.homework.assignment_05.philipp.ex2;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
-import org.aau.homework.assignment_05.util.NewsClient;
+import org.aau.homework.assignment_05.philipp.util.NewsClient;
 
 @Path("/news-service")
 public class NewsService {
