@@ -23,7 +23,17 @@ public class NewsClient {
             System.out.println("Welcome to NewsIo!\nPlease enter a topic you want to read more about:");
             String topic = scanner.nextLine();
             System.out.printf("--- Querying Articles for '%s' -----\n", topic);
-            for(Article article: queryNewsDataForTopic(topic))
+            List<Article> articles = queryNewsDataForTopic(topic);
+
+            if (articles.isEmpty())
+                return;
+
+            if (articles.size() == 1 && articles.get(0).isNull()) {
+                System.out.println("No articles found :(");
+                return;
+            }
+
+            for (Article article : articles)
                 System.out.println(article);
         }
     }
@@ -40,13 +50,14 @@ public class NewsClient {
                     .path("/news")
                     .queryParam("apikey", API_KEY)
                     .queryParam("q", topic)
-                    .queryParam("language", "en")
-                    ;
+                    .queryParam("language", "en");
 
             JsonNode response = webTarget.request(MediaType.APPLICATION_JSON_TYPE).get(JsonNode.class);
             ArrayNode results = (ArrayNode) response.get("results");
             var articles = new ArrayList<Article>();
             results.forEach(article -> articles.add(new Article(article)));
+            if (articles.isEmpty())
+                articles.add(new Article());
             return articles;
         }
     }

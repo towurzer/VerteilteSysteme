@@ -12,6 +12,16 @@ public record Article (JsonNode article, String title, String publishingDate, St
         );
     }
 
+    public Article(){
+        this (
+                null,
+                null,
+                null,
+                null
+        );
+
+    }
+
 
     @Override
     public String toString() {
@@ -21,5 +31,11 @@ public record Article (JsonNode article, String title, String publishingDate, St
                 read more: %s
                 --- --- --- ---
                 """.formatted(title, publishingDate, link);
+    }
+
+    public boolean isNull(){
+        if(article == null && title == null && publishingDate == null && link == null)
+            return true;
+        return false;
     }
 }
