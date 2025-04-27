@@ -1,4 +1,4 @@
-package org.aau.homework.assignment_05.tobi.ex1;
+package org.aau.homework.assignment_05.tobi.reusables;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -12,12 +12,12 @@ public record Article (JsonNode article, String title, String publishingDate, St
         );
     }
 
-    public Article(){
+    public Article(String title, String publishingDate, String link){
         this (
                 null,
-                null,
-                null,
-                null
+                title,
+                publishingDate,
+                link
         );
 
     }
