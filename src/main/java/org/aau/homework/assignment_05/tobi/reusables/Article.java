@@ -25,6 +25,10 @@ public record Article (JsonNode article, String title, String publishingDate, St
 
     @Override
     public String toString() {
+        if (article.isNull())
+            return "Empty Article";
+
+
         return """
                 --- '%s' ---
                 published: %s,
@@ -33,9 +37,28 @@ public record Article (JsonNode article, String title, String publishingDate, St
                 """.formatted(title, publishingDate, link);
     }
 
+    public String toHTML() {
+        if (article.isNull())
+            return """
+                    <div style="border:1px solid black;border-radius:4px;padding:4px;margin:12px 4px">
+                    <strong>No data found</strong>
+                    </div>
+                    """;
+
+        return """
+                <div style="border:1px solid black;border-radius:4px;padding:4px;margin:12px 4px">
+                    <strong>Title</strong>
+                    <br>
+                    <p>%s</p>
+                    <strong>Published at</strong>
+                    <br>
+                    <p>%s</p>
+                    <a href="%s"><strong>Link</strong></a>
+                </div>
+                """.formatted(title, publishingDate, link);
+    }
+
     public boolean isNull(){
-        if(article == null && title == null && publishingDate == null && link == null)
-            return true;
-        return false;
+        return article == null && title == null && publishingDate == null && link == null;
     }
 }

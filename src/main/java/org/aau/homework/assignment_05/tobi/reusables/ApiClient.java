@@ -14,6 +14,7 @@ public class ApiClient {
 
     private static final String NEWS_SERVICE_URL = "https://newsdata.io/api/1";
     private static final String API_KEY = System.getenv("NEWSDATA_API_KEY");
+    
 
     public static List<Article> queryNewsDataForTopic(String topic) {
         if (API_KEY == null || API_KEY.trim().isEmpty()) {
