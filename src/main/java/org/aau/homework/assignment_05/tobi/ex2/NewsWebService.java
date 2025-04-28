@@ -6,7 +6,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import org.aau.homework.assignment_05.tobi.reusables.ApiClient;
 
-@Path("/news-service")
+@Path("/news-service/tobi")
 public class NewsWebService {
     @GET
     @Produces("text/html")

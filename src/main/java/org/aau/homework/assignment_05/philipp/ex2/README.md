@@ -1,6 +1,6 @@
 # Example URL
 
-http://localhost:8080/verteilte_systeme_war_exploded/homework/api/news-service?topic=pizza
+http://localhost:8080/verteilte_systeme_war_exploded/homework/api/news-service/philipp?topic=pizza
 
 # Output HTML
 

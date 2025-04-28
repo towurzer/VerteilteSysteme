@@ -6,7 +6,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import org.aau.homework.assignment_05.philipp.util.NewsClient;
 
-@Path("/news-service")
+@Path("/news-service/philipp")
 public class NewsService {
     @GET
     @Produces("text/html")
