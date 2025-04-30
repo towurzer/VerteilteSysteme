@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Email Client</title>
+</head>
+
+<body>
+    <h1>Send an Email</h1>
+    <form id="emailForm">
+        <label for="recipient">Recipient:</label><br>
+        <input
+            type="text"
+            id="recipient"
+            name="recipient"
+            placeholder="Enter Recipient..."
+            required
+        >
+        <br><br>
+
+        <label for="subject">Subject:</label><br>
+        <input
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="Enter Subject..."
+            required
+        >
+        <br><br>
+
+        <label for="message">Message:</label><br>
+        <textarea
+            id="message"
+            name="message"
+            rows="4"
+            cols="50"
+            placeholder="Enter message..."
+            required
+        ></textarea>
+        <br><br>
+
+        <button type="reset">Reset</button>
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        document.getElementById("emailForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const form = event.target;
+
+            const data = {
+                recipient: form.recipient.value,
+                subject: form.subject.value,
+                message: form.message.value
+            };
+
+            try {
+                const response = await fetch("/sendEmail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) throw new Error("Error when sending");
+
+                const result = await response.text();
+                alert(`Message successfully send to ${data.recipient}!`);
+                form.reset();
+            } catch (err) {
+                alert("Error: " + err.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
