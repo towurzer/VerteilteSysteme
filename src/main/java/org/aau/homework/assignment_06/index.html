@@ -7,74 +7,65 @@
 </head>
 
 <body>
-    <h1>Send an Email</h1>
-    <form id="emailForm">
-        <label for="recipient">Recipient:</label><br>
+    <h1>Schedule an Email</h1>
+    <form
+        action="/send"
+        method="POST"
+        id="emailForm"
+    >
+        <label>Email:</label><br>
         <input
-            type="text"
-            id="recipient"
-            name="recipient"
-            placeholder="Enter Recipient..."
+            type="email"
+            name="email"
+            value="daniela.okon@ethereal.email"
             required
-        >
-        <br><br>
+        ><br><br>
 
-        <label for="subject">Subject:</label><br>
+        <label>Password:</label><br>
+        <input
+            type="password"
+            name="password"
+            value="GKfq5cC2yRHubSD5Zh"
+            required
+        ><br><br>
+
+        <label>To:</label><br>
+        <input
+            type="email"
+            name="to"
+            required
+        ><br><br>
+
+        <label>Subject:</label><br>
         <input
             type="text"
-            id="subject"
             name="subject"
-            placeholder="Enter Subject..."
             required
-        >
-        <br><br>
+        ><br><br>
 
-        <label for="message">Message:</label><br>
+        <label>Message:</label><br>
         <textarea
-            id="message"
-            name="message"
-            rows="4"
+            name="body"
+            rows="6"
             cols="50"
-            placeholder="Enter message..."
             required
-        ></textarea>
-        <br><br>
+        ></textarea><br><br>
 
-        <button type="reset">Reset</button>
-        <button type="submit">Send</button>
+        <label>Delay (in seconds):</label><br>
+        <input
+            type="number"
+            name="delay"
+            min="0"
+            value="0"
+        ><br><br>
+
+        <button type="submit">Send it</button>
     </form>
-
-    <script>
-        document.getElementById("emailForm").addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            const form = event.target;
-
-            const data = {
-                recipient: form.recipient.value,
-                subject: form.subject.value,
-                message: form.message.value
-            };
-
-            try {
-                const response = await fetch("/sendEmail", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                if (!response.ok) throw new Error("Error when sending");
-
-                const result = await response.text();
-                alert(`Message successfully send to ${data.recipient}!`);
-                form.reset();
-            } catch (err) {
-                alert("Error: " + err.message);
-            }
-        });
-    </script>
+    <div
+        id="status"
+        class="status"
+    ></div>
+    <script src="clientScript.js"></script>
 </body>
 
 </html>

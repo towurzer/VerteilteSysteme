@@ -1,73 +1,78 @@
-const http = require("http");
-const fs = require("fs");
+const express = require("express");
+const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 
-class EmailClient {
-  constructor(username, password) {
-    this.username = username;
-    this.transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
+const app = express();
+const PORT = 3000;
+const host = "smtp.ethereal.email";
+const port = 587;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("."));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+app.post("/send", async (req, res) => {
+  const { email, password, to, subject, body, delay } = req.body;
+  const delayMs = parseInt(delay) * 1000;
+
+  console.log(`Scheduling email to ${to} in ${delay} seconds...`);
+
+  try {
+    await wait(delayMs);
+
+    console.log(`Sending email to ${to}...`);
+
+    const transporter = nodemailer.createTransport({
+      host: host,
+      port: port,
+      secure: port === 465,
       auth: {
-        user: username,
+        user: email,
         pass: password,
       },
     });
-  }
 
-  async sendMail({ recipient, subject, message }) {
-    const payload = {
-      from: this.username,
-      to: recipient,
-      subject,
-      text: `${message}`,
-    };
+    const sendMailPromise = new Promise((resolve, reject) => {
+      const mailOptions = {
+        from: `"Scheduled Sender" <${email}>`,
+        to,
+        subject,
+        text: body,
+      };
 
-    try {
-      const info = await this.transporter.sendMail(payload);
-      console.log("Message sent: %s", info.messageId);
-    } catch (err) {
-      throw new Error("Sending mail failed");
-    }
-  }
-}
-
-const hostname = "127.0.0.1";
-const port = 3000;
-const username = `arvel62@ethereal.email`;
-const password = `Fz84XayAkcdhkyCNHm`;
-const emailClient = new EmailClient(username, password);
-
-const server = http.createServer((req, res) => {
-  if (req.url.endsWith("/sendEmail") && req.method === "POST") {
-    let body = "";
-    req.on("data", function (chunk) {
-      body += chunk;
-    });
-
-    req.on("end", function () {
-      console.log(`Received request: ${body}`);
-      try {
-        emailClient.sendMail(JSON.parse(body));
-        res.writeHead(200);
-      } catch (err) {
-        console.error("Error when sending mail");
-        res.writeHead(400);
-      }
-      res.end();
-    });
-  } else {
-    //Display index.html File
-    fs.readFile("./index.html", (err, file) => {
-      res.writeHead(200, {
-        "content-type": "text/html",
-        "Content-Length": file.length,
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Failed to send email:", error);
+          reject(error); // Reject the promise on error
+        } else {
+          console.log("Email sent:", info.messageId);
+          const previewUrl = nodemailer.getTestMessageUrl(info);
+          console.log("Preview URL:", previewUrl);
+          resolve({ previewUrl: previewUrl });
+        }
       });
-      res.end(file);
+    });
+
+    const result = await sendMailPromise;
+
+    res.json({
+      success: true,
+      message: `Email sent successfully after ${delay} seconds!`,
+      previewUrl: result.previewUrl,
+    });
+  } catch (error) {
+    console.error("Error during email sending:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to send email.",
     });
   }
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
