@@ -1,4 +1,4 @@
-package org.aau.homework.assignment_07.ex1;
+package org.aau.homework.assignment_07;
 
 public class Main {
     public static void main(String[] args) {
