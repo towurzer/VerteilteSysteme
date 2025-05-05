@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-    public int id;
+    public String id;
     public List<Node> neighbours;
 
-    public Node(int id){
+    public Node(String id){
         this.id = id;
         neighbours = new ArrayList<>();
     }

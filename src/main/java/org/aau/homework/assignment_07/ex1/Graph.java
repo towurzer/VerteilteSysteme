@@ -65,6 +65,9 @@ public class Graph {
 
     }
 
+
+
+
     public int getDiameter() {
         int maxLen = 0;
         for (int i = 0; i < adjacencyMatrix.length; i++) {
@@ -95,11 +98,11 @@ public class Graph {
         return (double) sum / pairCount;
     }
 
-    public double getNetworkAverageClusteringCoefficient(){
+    public double getNetworkAverageClusteringCoefficient() {
         int nodeCount = 0;
         double clusterIngSum = 0;
 
-        for (int i = 0; i < adjacencyMatrix.length; i++){
+        for (int i = 0; i < adjacencyMatrix.length; i++) {
             if (Arrays.stream(adjacencyMatrix[i]).sum() <= 1)
                 continue;
 
@@ -136,6 +139,14 @@ public class Graph {
         return (double) (2 * edges) / (degree * (degree - 1));
     }
 
+    public Integer getKeyByValue(Node node) {
+        for (HashMap.Entry<Integer, Node> entry : nodeMap.entrySet()) {
+            if (node.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 
     public int[][] getAdjazenzmatrix() {
         int[][] matrix = new int[nodeMap.size()][nodeMap.size()];
@@ -145,7 +156,8 @@ public class Graph {
             Node n = nodeMap.get(i);
 
             for (Node neighbour : n.neighbours) {
-                row[neighbour.id] = 1;
+                Integer key = getKeyByValue(neighbour);
+                row[key] = 1;
             }
         }
         return matrix;
@@ -153,20 +165,20 @@ public class Graph {
 
 
     public void buildGraph() {
-        Node a = new Node(0);
-        Node b = new Node(1);
-        Node c = new Node(2);
-        Node d = new Node(3);
-        Node e = new Node(4);
-        Node f = new Node(5);
-        Node g = new Node(6);
-        Node h = new Node(7);
-        Node i = new Node(8);
-        Node j = new Node(9);
-        Node k = new Node(10);
-        Node l = new Node(11);
-        Node m = new Node(12);
-        Node n = new Node(13);
+        Node a = new Node("A");
+        Node b = new Node("B");
+        Node c = new Node("C");
+        Node d = new Node("D");
+        Node e = new Node("E");
+        Node f = new Node("F");
+        Node g = new Node("G");
+        Node h = new Node("H");
+        Node i = new Node("I");
+        Node j = new Node("J");
+        Node k = new Node("K");
+        Node l = new Node("L");
+        Node m = new Node("M");
+        Node n = new Node("N");
 
 
         a.addNeighbour(d);
@@ -223,20 +235,21 @@ public class Graph {
 
         n.addNeighbour(m);
 
-        nodeMap.put(a.id, a);
-        nodeMap.put(b.id, b);
-        nodeMap.put(c.id, c);
-        nodeMap.put(d.id, d);
-        nodeMap.put(e.id, e);
-        nodeMap.put(f.id, f);
-        nodeMap.put(g.id, g);
-        nodeMap.put(h.id, h);
-        nodeMap.put(i.id, i);
-        nodeMap.put(j.id, j);
-        nodeMap.put(k.id, k);
-        nodeMap.put(l.id, l);
-        nodeMap.put(m.id, m);
-        nodeMap.put(n.id, n);
+        int id = 0;
+        nodeMap.put(id++, a);
+        nodeMap.put(id++, b);
+        nodeMap.put(id++, c);
+        nodeMap.put(id++, d);
+        nodeMap.put(id++, e);
+        nodeMap.put(id++, f);
+        nodeMap.put(id++, g);
+        nodeMap.put(id++, h);
+        nodeMap.put(id++, i);
+        nodeMap.put(id++, j);
+        nodeMap.put(id++, k);
+        nodeMap.put(id++, l);
+        nodeMap.put(id++, m);
+        nodeMap.put(id, n);
 
 
         adjacencyMatrix = getAdjazenzmatrix();
