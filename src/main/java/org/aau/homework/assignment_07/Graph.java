@@ -66,7 +66,45 @@ public class Graph {
     }
 
 
+    public void queryFlooding(int fromId, int toId, int hopCount){
+        int iterationCount = 1;
+        int requestCount = 0;
+        List<Integer> randMenge = new ArrayList<>();
+        randMenge.add(fromId);
+        boolean[][] recievedRequestFrom = new boolean[nodeMap.size()][nodeMap.size()];
 
+        while (iterationCount <= hopCount){
+            for (Integer nodeId:  List.copyOf(randMenge)){
+                randMenge.remove(nodeId);
+
+                if (nodeId == toId){
+                    System.out.printf("Iteration %d: Found object of interest in Node %s%n", iterationCount, nodeMap.get(nodeId).id);
+                    continue;
+                }
+
+
+                int[] connections = adjacencyMatrix[nodeId];
+                for (int neighbour = 0; neighbour < adjacencyMatrix.length; neighbour++){
+                    if (connections[neighbour] == 0 || neighbour == nodeId)
+                        continue;
+                    // neighbour (int) is a neighbour of nodeId
+
+
+                    if (!recievedRequestFrom[nodeId][neighbour]) {
+                        randMenge.add(neighbour);
+                        recievedRequestFrom[neighbour][nodeId] = true;
+                        System.out.printf("Iteration %d: %s query's %s%n", iterationCount, nodeMap.get(nodeId).id, (nodeMap.get(neighbour)).id);
+                        requestCount++;
+                    }
+
+                }
+            }
+            iterationCount++;
+            System.out.println("----------------------------------------------------------");
+        }
+
+        System.out.printf("Query done: %d iteration, %d total requests%n", --iterationCount, requestCount);
+    }
 
     public int getDiameter() {
         int maxLen = 0;

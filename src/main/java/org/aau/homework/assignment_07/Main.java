@@ -11,5 +11,8 @@ public class Main {
         System.out.printf("Clustering coefficient of B: %.3f%n", a.getLocalClusteringCoefficient(1));
         System.out.printf("Network average clustering coefficient of G: %.3f%n", a.getNetworkAverageClusteringCoefficient());
 
+
+        System.out.println("\n\n\n--------------------------------------\nQueryFlooding(A, H, 4)\n");
+        a.queryFlooding(0, 7, 4);
     }
 }
