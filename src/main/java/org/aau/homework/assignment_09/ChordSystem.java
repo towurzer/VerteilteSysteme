@@ -1,4 +1,4 @@
-package org.aau.homework.assignment_09.ex1;
+package org.aau.homework.assignment_09;
 
 import java.util.*;
 
