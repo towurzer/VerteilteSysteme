@@ -10,6 +10,9 @@ public class ChordSystem {
     int keyCount;
 
     public ChordSystem(int peerCount, int keyCount) {
+        System.out.println("Simulating CHORD with " + peerCount + " peers, and " + keyCount + " keys.");
+        System.out.println("ID Namespace: " + m + "-bit (0-" + ((int)Math.pow(2,m)-1) + "), Finger Table Entries: " + m + "\n");
+
         nodes = new TreeMap<>(); // TreeMap automatically sorts keys
         this.peerCount = peerCount;
         this.keyCount = keyCount;
@@ -142,7 +145,6 @@ public class ChordSystem {
         nodes.put(newPeer.id, newPeer);
         System.out.println("New node " + newPeerId + " is now part of the CHORD ring.");
 
-// .........................................................................................................................................
         System.out.println("\n2. Initializing finger table for new node " + newPeerId + ":");
         newPeer.buildFingerTables();
 
@@ -211,4 +213,23 @@ public class ChordSystem {
         System.out.println("--- Node Join Simulation Complete ---");
     }
 
+
+    public void printPeerIdList() {
+        for (Integer peerId : this.nodes.keySet()) {
+            System.out.print(peerId + " ");
+        }
+        System.out.println("\n");
+    }
+
+
+    public void printKeyDistribution() {
+        for (Node peer : this.nodes.values()) {
+                if (!peer.storedKeys.isEmpty()) {
+                    System.out.println("Peer " + peer.id + " stores keys: " + peer.storedKeys);
+                } else {
+                    System.out.println("Peer " + peer.id + " stores no keys.");
+                }
+            }
+        System.out.println("\n");
+    }
 }

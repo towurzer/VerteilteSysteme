@@ -13,25 +13,14 @@ public class Main1 {
             keyCount = Integer.parseInt(args[1]);
         }
 
-        System.out.println("Simulating CHORD with " + peerCount + " peers, and " + keyCount + " keys.");
-        System.out.println("ID Namespace: 8-bit (0-255), Finger Table Entries: 8\n");
-
         ChordSystem chordSystem = new ChordSystem(peerCount, keyCount);
         TreeMap<Integer, Node> peers = chordSystem.getNodes();
 
 
         System.out.println("--- Generated Peer IDs ---");
-        for (Integer peerId : peers.keySet()) {
-            System.out.print(peerId + " ");
-        }
-        System.out.println("\n");
-
-
+        chordSystem.printPeerIdList();
         System.out.println("--- Generated Keys ---");
-        for (Node peer : peers.values()) {
-            System.out.println("Peer " + peer.id + " stores keys: " + peer.storedKeys);
-        }
-        System.out.println("\n");
+        chordSystem.printKeyDistribution();
 
         // Search
         Node startingNode = peers.get(peers.firstKey());

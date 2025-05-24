@@ -18,7 +18,7 @@ ID Namespace: 8-bit (0-255), Finger Table Entries: 8
 * Peer 47 stores keys: [45, 46, 47]
 * Peer 53 stores keys: [48, 49, 50, 52, 53]
 * Peer 71 stores keys: [65, 66, 67, 68, 69, 54, 55, 56, 57, 59, 60, 61, 63]
-* Peer 72 stores keys: []
+* Peer 72 stores no keys.
 * Peer 79 stores keys: [73, 74, 75, 76, 77, 78, 79]
 * Peer 93 stores keys: [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93]
 * Peer 96 stores keys: [96, 94, 95]
