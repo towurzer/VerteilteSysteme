@@ -2,12 +2,17 @@ package org.aau.homework.assignment_09;
 
 import java.util.TreeMap;
 
-public class Main {
+public class Main1 {
     static int peerCount = 32;
     static int keyCount = 200;
     static int keyToFind = 132;
 
     public static void main(String[] args) {
+        if (args.length == 2) {
+            peerCount = Integer.parseInt(args[0]);
+            keyCount = Integer.parseInt(args[1]);
+        }
+
         System.out.println("Simulating CHORD with " + peerCount + " peers, and " + keyCount + " keys.");
         System.out.println("ID Namespace: 8-bit (0-255), Finger Table Entries: 8\n");
 

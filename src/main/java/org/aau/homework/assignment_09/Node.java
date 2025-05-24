@@ -17,6 +17,7 @@ public class Node {
     ChordSystem parentSystem;
 
     Node successor;
+    Node predecessor;
 
 
     public Node(int id, int m, ChordSystem parentSystem) {
@@ -28,13 +29,18 @@ public class Node {
     }
 
     public void buildFingerTables(){
-            for (int i = 0; i < m; i++) {
+        for (int i = 0; i < m; i++) {
             int targetId = (int) (id + pow(2, i));
             targetId %= (int) pow(2, m);
 
             fingerTable[i] = parentSystem.findSuccessor(targetId);
         }
         successor = parentSystem.findSuccessor((int) ((id+1) % pow(2, m)));
+        Integer predecessorId = parentSystem.getNodes().lowerKey(id);
+        if (predecessorId == null) // there is no lower key
+            predecessor = parentSystem.getNodes().get(parentSystem.getNodes().lastKey());
+        else
+            predecessor = parentSystem.getNodes().get(predecessorId);
     }
 
     public void addKey(int key) {
@@ -58,7 +64,7 @@ public class Node {
         return successor.searchForKey(key); // try again in next node (as in paper)
     }
 
-    private String fingerTableToString() {
+    public String fingerTableToString() {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < m; i++) {
             sb.append(fingerTable[i].id);
