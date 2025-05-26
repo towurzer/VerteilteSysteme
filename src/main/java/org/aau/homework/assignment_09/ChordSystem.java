@@ -1,6 +1,12 @@
 package org.aau.homework.assignment_09;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class ChordSystem {
     TreeMap<Integer, Node> nodes;
@@ -11,7 +17,7 @@ public class ChordSystem {
 
     public ChordSystem(int peerCount, int keyCount) {
         System.out.println("Simulating CHORD with " + peerCount + " peers, and " + keyCount + " keys.");
-        System.out.println("ID Namespace: " + m + "-bit (0-" + ((int)Math.pow(2,m)-1) + "), Finger Table Entries: " + m + "\n");
+        System.out.println("ID Namespace: " + m + "-bit (0-" + ((int) Math.pow(2, m) - 1) + "), Finger Table Entries: " + m + "\n");
 
         nodes = new TreeMap<>(); // TreeMap automatically sorts keys
         this.peerCount = peerCount;
@@ -111,9 +117,6 @@ public class ChordSystem {
             return;
         }
         Node entryPointNode = nodes.get(entryPointPeerId);
-        if (entryPointNode == null) {
-            System.out.println("Error: Entry point peer " + entryPointPeerId + " not found.");
-        }
 
         Node newPeer = new Node(newPeerId, m, this);
         System.out.println("\n1. Initializing new node " + newPeerId + " (predecessor, successor):");
@@ -178,32 +181,30 @@ public class ChordSystem {
 
         Node predecessorOfNewNode = newPeer.predecessor; // oldPredecessorOfSuccessor
 
-        if (successorOfNewNode.id == newPeer.id) {
-            System.out.println("New node is its own successor (e.g., was the only node). No keys to transfer from successor.");
-        } else {
-            System.out.println("Checking keys on node " + successorOfNewNode.id + ". Range for newNode " + newPeer.id + " is (" + (predecessorOfNewNode != null ? predecessorOfNewNode.id : "环绕点") + ", " + newPeer.id + "]");
-            Iterator<Integer> keyIterator = successorOfNewNode.storedKeys.iterator();
-            while (keyIterator.hasNext()) {
-                Integer key = keyIterator.next();
-                int predIdForRangeCheck;
-                if (predecessorOfNewNode == null) {
-                    if (nodes.size() == 2) {
-                        predIdForRangeCheck = successorOfNewNode.id;
-                    } else {
-                        continue;
-                    }
+
+        System.out.println("Checking keys on node " + successorOfNewNode.id + ". Range for newNode " + newPeer.id + " is (" + (predecessorOfNewNode != null ? predecessorOfNewNode.id : "环绕点") + ", " + newPeer.id + "]");
+        Iterator<Integer> keyIterator = successorOfNewNode.storedKeys.iterator();
+        while (keyIterator.hasNext()) {
+            Integer key = keyIterator.next();
+            int predIdForRangeCheck;
+            if (predecessorOfNewNode == null) {
+                if (nodes.size() == 2) {
+                    predIdForRangeCheck = successorOfNewNode.id;
                 } else {
-                    predIdForRangeCheck = predecessorOfNewNode.id;
+                    continue;
                 }
+            } else {
+                predIdForRangeCheck = predecessorOfNewNode.id;
+            }
 
 
-                if (isInCircularInterval(key, predIdForRangeCheck, newPeer.id, (int) Math.pow(2, m))) {
-                    newPeer.addKey(key);
-                    movedKeys.add(key);
-                    keyIterator.remove(); // Remove from sourceNodeForKeys.storedKeys
-                }
+            if (isInCircularInterval(key, predIdForRangeCheck, newPeer.id, (int) Math.pow(2, m))) {
+                newPeer.addKey(key);
+                movedKeys.add(key);
+                keyIterator.remove(); // Remove from sourceNodeForKeys.storedKeys
             }
         }
+
 
         if (!movedKeys.isEmpty()) {
             System.out.println("Keys moved to node " + newPeerId + ": " + movedKeys);
@@ -224,12 +225,12 @@ public class ChordSystem {
 
     public void printKeyDistribution() {
         for (Node peer : this.nodes.values()) {
-                if (!peer.storedKeys.isEmpty()) {
-                    System.out.println("Peer " + peer.id + " stores keys: " + peer.storedKeys);
-                } else {
-                    System.out.println("Peer " + peer.id + " stores no keys.");
-                }
+            if (!peer.storedKeys.isEmpty()) {
+                System.out.println("Peer " + peer.id + " stores keys: " + peer.storedKeys);
+            } else {
+                System.out.println("Peer " + peer.id + " stores no keys.");
             }
+        }
         System.out.println("\n");
     }
 }
