@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Email Client</title>
+</head>
+
+<body>
+    <h1>Schedule an Email</h1>
+    <form
+        action="/send"
+        method="POST"
+        id="emailForm"
+    >
+        <label>Email:</label><br>
+        <input
+            type="email"
+            name="email"
+            value="daniela.okon@ethereal.email"
+            required
+        ><br><br>
+
+        <label>Password:</label><br>
+        <input
+            type="password"
+            name="password"
+            value="GKfq5cC2yRHubSD5Zh"
+            required
+        ><br><br>
+
+        <label>To:</label><br>
+        <input
+            type="email"
+            name="to"
+            required
+        ><br><br>
+
+        <label>Subject:</label><br>
+        <input
+            type="text"
+            name="subject"
+            required
+        ><br><br>
+
+        <label>Message:</label><br>
+        <textarea
+            name="body"
+            rows="6"
+            cols="50"
+            required
+        ></textarea><br><br>
+
+        <label>Delay (in seconds):</label><br>
+        <input
+            type="number"
+            name="delay"
+            min="0"
+            value="0"
+        ><br><br>
+
+        <button type="submit">Send it</button>
+    </form>
+    <div
+        id="status"
+        class="status"
+    ></div>
+    <script src="clientScript.js"></script>
+</body>
+
+</html>
