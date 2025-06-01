@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: verteilte-systeme
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: verteilte-systeme
+  template:
+    metadata:
+      labels:
+        app: verteilte-systeme
+    spec:
+      affinity:
+        #This ensures pods will land on separate hosts
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions: [{ key: app, operator: In, values: [verteilte-systeme] }]
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: vs-email-client
+          image: w0lphi/vs-email-client
+          ports:
+            - name: http
+              containerPort: 8080 # NodeJS app uses port 8080
+      terminationGracePeriodSeconds: 30
